@@ -1,0 +1,364 @@
+@import 'tailwindcss';
+
+/* Design tokens. The deep red comes directly from the supplied Zahid Kasmani mark. */
+:root {
+  --paper: #fcfbf9;
+  --surface: #f4f1ef;
+  --ink: #1d1b1a;
+  --muted: #625d5a;
+  --rule: #e4dedb;
+  --accent: #a80000;
+  --accent-soft: #f5e7e5;
+  --card-shadow: 0 18px 50px rgb(87 45 40 / 0.09);
+  color-scheme: light;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-rule: var(--rule);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --font-serif: var(--font-serif-face), Georgia, 'Times New Roman', serif;
+  --font-sans: var(--font-sans-face), system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-arabic: var(--font-arabic-face), var(--font-sans-face), system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    background: var(--paper);
+    color: var(--ink);
+    scrollbar-gutter: stable;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    text-rendering: optimizeLegibility;
+  }
+  html[lang='ar'] body {
+    font-family: var(--font-arabic);
+  }
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+  [hidden] {
+    display: none !important;
+  }
+  ::selection {
+    background: color-mix(in srgb, var(--accent) 25%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@utility shell {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 76rem;
+  padding-inline: 1rem;
+  @media (width >= 40rem) {
+    padding-inline: 1.5rem;
+  }
+  @media (width >= 64rem) {
+    padding-inline: 2rem;
+  }
+}
+
+/* Body text measure: about 65 characters. */
+@utility measure {
+  max-width: 65ch;
+}
+
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Text column plus a dedicated right (inline-end) margin column for margin notes. */
+@utility row-with-margin {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  @media (width >= 64rem) {
+    grid-template-columns: minmax(0, 1fr) 14rem;
+    column-gap: 2.5rem;
+  }
+}
+
+/* Expertise tags dimmed by the era filter. */
+[data-era-dim] {
+  transition: opacity 300ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+[data-era-dim][data-dimmed] {
+  opacity: 0.35;
+}
+
+.skip-link {
+  position: absolute;
+  inset-inline-start: 1rem;
+  top: -100px;
+  z-index: 100;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+}
+.skip-link:focus {
+  top: 1rem;
+}
+
+html[data-brand-intro='active'] {
+  overflow: hidden;
+}
+
+.brand-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  background: #fcfbf9;
+}
+
+.brand-intro-logo {
+  display: block;
+  width: min(17rem, 62vw);
+  height: auto;
+  will-change: transform;
+}
+
+.brand-link {
+  display: inline-flex;
+  width: 4.75rem;
+  height: 3rem;
+  align-items: center;
+  overflow: hidden;
+}
+
+.brand-logo {
+  width: 4rem;
+  height: auto;
+  object-fit: contain;
+}
+
+.hero-grid {
+  display: grid;
+  gap: 2rem;
+  align-items: stretch;
+}
+
+.hero-portrait,
+.about-portrait {
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  border-radius: 1rem;
+  background: var(--surface);
+  box-shadow: var(--card-shadow);
+}
+
+.hero-portrait {
+  min-height: 32rem;
+  max-height: 43rem;
+}
+
+.statement-card {
+  border: 1px solid var(--rule);
+  border-inline-start: 4px solid var(--accent);
+  border-radius: 1rem;
+  padding: 2rem;
+  background: var(--surface);
+}
+
+.metric-card,
+.chapter-card,
+.story-chapter-card,
+.career-role-card,
+.about-portrait-card {
+  border: 1px solid var(--rule);
+  border-radius: 1rem;
+  background: color-mix(in srgb, var(--paper) 88%, var(--surface));
+  box-shadow: var(--card-shadow);
+}
+
+.metric-card,
+.chapter-card {
+  padding: 1.5rem;
+}
+
+.metric-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.metric-card::before {
+  content: '';
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0;
+  height: 3px;
+  background: var(--accent);
+  transform: scaleX(0.18);
+  transform-origin: left;
+  transition: transform 220ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.chapter-card {
+  display: flex;
+  min-height: 18rem;
+  flex-direction: column;
+}
+
+.chapter-card a {
+  margin-top: auto;
+  padding-top: 1rem;
+}
+
+.about-portrait-card {
+  display: grid;
+  overflow: hidden;
+}
+
+.about-portrait-copy {
+  align-self: center;
+  padding: 2rem;
+}
+
+.about-portrait {
+  min-height: 28rem;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.career-path {
+  position: relative;
+}
+
+.career-path-content {
+  padding-inline-start: 2.75rem;
+}
+
+.career-line {
+  position: absolute;
+  inset-block: 2.5rem 3rem;
+  inset-inline-start: 0.65rem;
+  width: 2px;
+  overflow: hidden;
+  background: var(--rule);
+}
+
+.career-line-progress {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-origin: top;
+  background: var(--accent);
+}
+
+.story-chapter-card {
+  position: relative;
+  margin-block: 2rem;
+  padding: 2rem 1.25rem 1.5rem;
+}
+
+.career-role-card {
+  position: relative;
+  margin-block: 1rem;
+  padding: 1.5rem;
+}
+
+.career-node {
+  position: absolute;
+  inset-block-start: 1.5rem;
+  inset-inline-start: -4.75rem;
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  place-items: center;
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+  background: var(--paper);
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (width >= 48rem) {
+  .about-portrait-card {
+    grid-template-columns: minmax(0, 1fr) minmax(20rem, 0.72fr);
+  }
+}
+
+@media (width >= 64rem) {
+  .hero-grid {
+    grid-template-columns: minmax(0, 1.08fr) minmax(24rem, 0.92fr);
+  }
+
+  .career-path-content {
+    padding-inline-start: 4rem;
+  }
+
+  .career-line {
+    inset-inline-start: 1rem;
+  }
+
+  .story-chapter-card {
+    padding: 2.5rem;
+  }
+
+  .career-node {
+    inset-inline-start: -6.9rem;
+  }
+}
+
+[dir='rtl'] .metric-card::before {
+  transform-origin: right;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .metric-card,
+  .chapter-card {
+    transition:
+      transform 220ms cubic-bezier(0.23, 1, 0.32, 1),
+      border-color 220ms ease,
+      box-shadow 220ms ease;
+  }
+
+  .metric-card:hover,
+  .chapter-card:hover {
+    transform: translateY(-4px);
+    border-color: color-mix(in srgb, var(--accent) 42%, var(--rule));
+    box-shadow: 0 22px 55px rgb(87 45 40 / 0.14);
+  }
+
+  .metric-card:hover::before {
+    transform: scaleX(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .metric-card,
+  .chapter-card,
+  .metric-card::before {
+    transition-duration: 0.01ms !important;
+  }
+}
